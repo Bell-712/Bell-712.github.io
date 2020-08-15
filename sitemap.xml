@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://bell-712.github.io/tags/index.html</loc>
+    <loc>http://bell-712.github.io/2020/08/15/2020-08/</loc>
     
     <lastmod>2020-08-15</lastmod>
     
@@ -16,21 +16,14 @@
   </url>
   
   <url>
+    <loc>http://bell-712.github.io/tags/index.html</loc>
+    
+    <lastmod>2020-08-15</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://bell-712.github.io/archive/index.html</loc>
-    
-    <lastmod>2020-08-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://bell-712.github.io/about/index.html</loc>
-    
-    <lastmod>2020-08-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://bell-712.github.io/2020/04/17/Hexo-Theme-LiveMyLife/</loc>
     
     <lastmod>2020-08-15</lastmod>
     
@@ -53,14 +46,7 @@
 
   
   <url>
-    <loc>http://bell-712.github.io/tags/Hexo/</loc>
-    <lastmod>2020-08-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://bell-712.github.io/tags/Hexo-Theme-LiveMyLife/</loc>
+    <loc>http://bell-712.github.io/tags/Dialy-Learning/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -69,7 +55,7 @@
 
   
   <url>
-    <loc>http://bell-712.github.io/categories/Hexo-Theme-LiveMyLife/</loc>
+    <loc>http://bell-712.github.io/categories/diary/</loc>
     <lastmod>2020-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
