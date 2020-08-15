@@ -30,13 +30,6 @@
   </url>
   
   <url>
-    <loc>http://bell-712.github.io/2020/04/17/Hexo-Theme-LiveMyLife/</loc>
-    
-    <lastmod>2020-08-15</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://bell-712.github.io/404.html</loc>
     
     <lastmod>2020-08-15</lastmod>
@@ -52,27 +45,6 @@
   </url>
 
   
-  <url>
-    <loc>http://bell-712.github.io/tags/Hexo/</loc>
-    <lastmod>2020-08-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://bell-712.github.io/tags/Hexo-Theme-LiveMyLife/</loc>
-    <lastmod>2020-08-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
-  
-  <url>
-    <loc>http://bell-712.github.io/categories/Hexo-Theme-LiveMyLife/</loc>
-    <lastmod>2020-08-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
   
 </urlset>
