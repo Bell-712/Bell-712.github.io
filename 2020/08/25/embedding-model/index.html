@@ -137,7 +137,7 @@
   <link rel="canonical" href="http://bell-712.github.io/2020/08/25/embedding-model/">
   <title>
     
-    自然语言处理入门 - be happier&amp;go deeper
+    自然语言处理入门 - be happier &amp; go deeper
     
   </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
@@ -322,11 +322,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">1</span> Minutes
+              Estimated Reading Time <span class="post-count">5</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">28</span> In Total
+              Words <span class="post-count">1.3k</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- 不蒜子统计 start -->
@@ -386,7 +386,80 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <h3 id="基于CS224N课程-以及-《神经网络与深度学习》，本章主要是与embedding相关的笔记。"><a href="#基于CS224N课程-以及-《神经网络与深度学习》，本章主要是与embedding相关的笔记。" class="headerlink" title="基于CS224N课程 以及 《神经网络与深度学习》，本章主要是与embedding相关的笔记。"></a>基于CS224N课程 以及 《神经网络与深度学习》，本章主要是与embedding相关的笔记。</h3>
+        <h3 id="基于CS224N课程-，《神经网络与深度学习》以及-deeplearning-ai，本章主要是与embedding相关的笔记。"><a href="#基于CS224N课程-，《神经网络与深度学习》以及-deeplearning-ai，本章主要是与embedding相关的笔记。" class="headerlink" title="基于CS224N课程 ，《神经网络与深度学习》以及 deeplearning.ai，本章主要是与embedding相关的笔记。"></a>基于CS224N课程 ，《神经网络与深度学习》以及 deeplearning.ai，本章主要是与embedding相关的笔记。</h3><h1 id="word-embedding-学习的目标"><a href="#word-embedding-学习的目标" class="headerlink" title="word embedding 学习的目标"></a>word embedding 学习的目标</h1><p><strong>目标：</strong></p>
+<p>学习一个embedding matrix，每一个词可以通过embedding matrix 与Onehot表示点乘得到对应的词嵌入，<br>更简单的做法是在词嵌入中直接查找单词对应的列作为该词的词向量</p>
+<p><strong>途径：</strong></p>
+<p>为使词嵌入可以学习任意长度的句子，一般选取固定窗口大小的词，在窗口内通过某种方式对词进行预测（类似于完型填空），<br>通过有监督学习的方式，不断学习embedding</p>
+<h1 id="常见模型"><a href="#常见模型" class="headerlink" title="常见模型"></a>常见模型</h1><h2 id="skip-gram"><a href="#skip-gram" class="headerlink" title="skip-gram"></a>skip-gram</h2><p><strong>思路：</strong></p>
+<p>通过中间词预测周围词</p>
+<ul>
+<li>corpus: I want a glass of juice to go along with my cereal</li>
+<li>n=5</li>
+<li>context:在语料中随机选择一个词，比如说juice</li>
+<li>fixed window:[juice-5,juice +5]-juice<br>  -[I want a glass of to go along with my ]</li>
+<li>在fixed window中随机选择一词为目标预测词（target）<ul>
+<li>在抽样的过程中一般不是uniform均匀采样，因为考虑到有一些高频连词等会经常被抽到</li>
+</ul>
+</li>
+<li>使用softmax对可能目标词的后验概率进行计算</li>
+<li>使用梯度下降法对训练模型参数<ul>
+<li>考虑到梯度下降法中若对embedding只设置一个参数进行学习，在计算中会出现平方，<br>因此此处考虑中心词和周围词设置两个矩阵，在实际训练过程中，中心词和周围词从某种程度而言是相互对称的，可以互相交换，<br>因此最终的向量矩阵为中心词和周围词两个矩阵的平均值。</li>
+</ul>
+</li>
+</ul>
+<h3 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h3><p>使用<strong>softmax方法：</strong></p>
+<p>损失函数为交叉熵损失函数，$L(yhat,y)=-\sum_{k=1}^{K}y_{i}log(yhat_{i})$ ,<br>由于y为Onehot编码，因此也可表示为$L(yhat,y)=-log(yhat_{i})$</p>
+<pre><code>$ p(u_{o}|v)=\frac{e^{{u_{o}}^{T}v}}{\sum_{k=1}^{K}e^{{u_{k}}^{T}v}} $</code></pre><p>此处${\sum _{k=1}^{K}e^{{u_{k}}^{T}v}}$需要语料库中的所有词，因此计算速度慢，效率低，考虑改进。</p>
+<pre><code>**改进方法**
+- 分级softmax分类器（Hierarchical softmax classifier）
+
+从数据结构的角度进行改进，考虑用树结构代替原始结构，节省计算成本，**O(corpus) =&gt; O(log(corpus))**
+
+改进后的softmax分类器为多个二分类器，叶子节点为词，现实中不一定为对称的树结构，主要依据词是否为常用词来布局整棵树，有效的提高计算效率
+    - 常用词在树的较为顶部的地方
+    - 不常用词在树的深处
+
+- 负采样（从skip-gram模型入手）
+    - corpus: I want a glass of juice to go along with my cereal
+    - window n=5
+    - context:在语料中随机选择一个词，比如说juice
+    - fixed window:\[ juice-5,juice +5\ ]-juice  
+        -\[ I want a glass of to go along with my \]
+    - 在fixed window中随机选择一词为目标预测词（target）,构成真实样本组
+    - 接着抽样构造负样本
+        - 负样本说明
+            - 只要与target词不同就可以构成负样本，不需要考虑是否在fixed window size内部
+            - 对于小型数据集一般选择k=5-20，大型数据集k=2-5
+        - 抽样方法：
+            - 依据词频采样（常用词采样几率更大）
+            - 均匀采样 $\frac{1}{corpus}$(基本没有什么区分度)
+            - $P(W_{i})=\frac{{f(w_{i})}^{3/4}}{\sum_{k=1}^{K}{{f(W_{i})}^{3/4}}}$ (介于前两种方法之间，实践中证明很有用)
+    - 将真实样本组与抽样形成的负样本组一起进行逻辑回归(对每一个真实样本组，需要训练k+1个逻辑回归单元)
+    - 优点计算梯度的时候负采样算法使用的是子向量而非完整词向量（推导）</code></pre><h2 id="CBOW"><a href="#CBOW" class="headerlink" title="CBOW"></a>CBOW</h2><p>由周围词预测中心词</p>
+<ul>
+<li>corpus: I want a glass of juice to go along with my cereal</li>
+<li>window n=5</li>
+<li>target:在语料中随机选择一个词，比如说juice</li>
+<li>fixed window:[ juice-5 , juice +5 ]- juice<br>  -[ I want a glass of to go along with my ]</li>
+<li>context:[ I want a glass of <strong>?</strong> to go along with my ]</li>
+</ul>
+<h2 id="Glove"><a href="#Glove" class="headerlink" title="Glove"></a>Glove</h2><p><strong>思路：</strong></p>
+<p>计算篇章内词语共现次数，从而从统计性质角度考虑词向量训练。</p>
+<p>##常见的从统计角度出发的词向量训练</p>
+<ul>
+<li>共现矩阵：存在向量大且稀疏的问题    <ul>
+<li>标准化/设置上限</li>
+<li>从皮尔逊相关系数入手更好的改善类比问题</li>
+<li>采用平方损失刻画真实的共现可能性与词向量计算的后验概率的一致性<ul>
+<li>minimize $\sum_{i=1}^{K}\sum_{j=1}^{K}f(x_{ij})(\theta_{i}^{T}e_{j}+b_{i}+b_{j}-log(x_ij))^{2}$</li>
+<li>\theta_{i}^{T}e_{j}刻画后验概率，log(x_ij)刻画实际共现概率，为了对称加入了b_{i}和b_{j}</li>
+<li>如果x_{ij}为0，则log负无穷，为平衡式子加入f(x_{ij})整体函数类似于线性截断，<br>在x_{ij}为0时，f(x_{ij})也为0，到达一定值时函数值不再发生变化。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
 
         <hr>
         <!-- Pager -->
@@ -524,7 +597,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基于CS224N课程-以及-《神经网络与深度学习》，本章主要是与embedding相关的笔记。"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">基于CS224N课程 以及 《神经网络与深度学习》，本章主要是与embedding相关的笔记。</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基于CS224N课程-，《神经网络与深度学习》以及-deeplearning-ai，本章主要是与embedding相关的笔记。"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">基于CS224N课程 ，《神经网络与深度学习》以及 deeplearning.ai，本章主要是与embedding相关的笔记。</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#word-embedding-学习的目标"><span class="toc-nav-number"></span> <span class="toc-nav-text">word embedding 学习的目标</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#常见模型"><span class="toc-nav-number"></span> <span class="toc-nav-text">常见模型</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#skip-gram"><span class="toc-nav-number"></span> <span class="toc-nav-text">skip-gram</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#难点"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">难点</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CBOW"><span class="toc-nav-number"></span> <span class="toc-nav-text">CBOW</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Glove"><span class="toc-nav-number"></span> <span class="toc-nav-text">Glove</span></a>
         
         </div>
       </aside>

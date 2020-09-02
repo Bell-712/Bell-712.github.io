@@ -137,7 +137,7 @@
   <link rel="canonical" href="http://bell-712.github.io/2020/08/22/embeddings/">
   <title>
     
-    自然语言处理入门 - be happier&amp;go deeper
+    自然语言处理入门 - be happier &amp; go deeper
     
   </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
@@ -322,11 +322,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">2</span> Minutes
+              Estimated Reading Time <span class="post-count">5</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">854</span> In Total
+              Words <span class="post-count">1.6k</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- 不蒜子统计 start -->
@@ -386,7 +386,7 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <h3 id="基于CS224N课程-以及-《神经网络与深度学习》，本章主要是与embedding相关的笔记。"><a href="#基于CS224N课程-以及-《神经网络与深度学习》，本章主要是与embedding相关的笔记。" class="headerlink" title="基于CS224N课程 以及 《神经网络与深度学习》，本章主要是与embedding相关的笔记。"></a>基于CS224N课程 以及 《神经网络与深度学习》，本章主要是与embedding相关的笔记。</h3><h1 id="1-如何表示词语的意思"><a href="#1-如何表示词语的意思" class="headerlink" title="1.如何表示词语的意思"></a>1.如何表示词语的意思</h1><h2 id="什么是Mearning"><a href="#什么是Mearning" class="headerlink" title="+ 什么是Mearning"></a>+ 什么是Mearning</h2><p><strong>Keywords:</strong></p>
+        <h3 id="基于CS224N课程-，《神经网络与深度学习》-以及-deeplearning-ai，本章主要是与embedding相关的笔记。"><a href="#基于CS224N课程-，《神经网络与深度学习》-以及-deeplearning-ai，本章主要是与embedding相关的笔记。" class="headerlink" title="基于CS224N课程 ，《神经网络与深度学习》 以及 deeplearning.ai，本章主要是与embedding相关的笔记。"></a>基于CS224N课程 ，《神经网络与深度学习》 以及 deeplearning.ai，本章主要是与embedding相关的笔记。</h3><h1 id="1-如何表示词语的意思"><a href="#1-如何表示词语的意思" class="headerlink" title="1.如何表示词语的意思"></a>1.如何表示词语的意思</h1><h2 id="什么是Meaning"><a href="#什么是Meaning" class="headerlink" title="+ 什么是Meaning"></a>+ 什么是Meaning</h2><p><strong>Keywords:</strong></p>
 <ul>
 <li><p>the idea / Webster Dictionary/</p>
 </li>
@@ -410,7 +410,8 @@
 <p>上位词hypernym,概括性较强的单词叫做特定性较强的单词的上位词，<br>下位词 hyponym,特定性较强的单词叫做概括性较强的单词的下位词，<br>猩红色、鲜红色、胭脂红、绯红色都是“红色 ”的下位词，而红色则是猩红色的上位词</p>
 </li>
 </ul>
-<h1 id="2-什么是Embedding"><a href="#2-什么是Embedding" class="headerlink" title="2.什么是Embedding:"></a>2.什么是Embedding:</h1><h2 id="表示学习"><a href="#表示学习" class="headerlink" title="+ 表示学习:"></a>+ 表示学习:</h2><p><strong>表示</strong>是将输入信息转换出的有效特征，<strong>表示学习</strong>可以自动地学习出有效的特征，并提高最终机器学习模型的性能。</p>
+<h1 id="2-什么是Embedding"><a href="#2-什么是Embedding" class="headerlink" title="2.什么是Embedding:"></a>2.什么是Embedding:</h1><p><strong>Featurized representation 每个词都被嵌入在一定维数的空间中</strong></p>
+<h2 id="表示学习"><a href="#表示学习" class="headerlink" title="+ 表示学习:"></a>+ 表示学习:</h2><p><strong>表示</strong>是将输入信息转换出的有效特征，<strong>表示学习</strong>可以自动地学习出有效的特征，并提高最终机器学习模型的性能。</p>
 <h2 id="表示学习的关键问题："><a href="#表示学习的关键问题：" class="headerlink" title="+ 表示学习的关键问题："></a>+ 表示学习的关键问题：</h2><p><strong>语义鸿沟（Semantic Gap）</strong>:<br>输入数据的底层特征与高层语义信息之间的不一致性和差异性。</p>
 <blockquote>
 <p>如果直接建立在底层特征上，会导致对预测模型的能力要求过高。好的表示在某种程度上能够反映出数据的高层语义特征，相对容易地构建后续的机器学习模型。</p>
@@ -454,6 +455,66 @@
 </li>
 </ul>
 <h2 id="表示学习例子："><a href="#表示学习例子：" class="headerlink" title="+ 表示学习例子："></a>+ 表示学习例子：</h2><p>传统的特征学习方法：主成分分析（PCA）、线性判别分析（LDA）、独立成分分析（ICA）,<br>人为学习准则，特征学习和预测学习分开，不一定可以提高最终模型的性能。</p>
+<h1 id="3-词嵌入特点"><a href="#3-词嵌入特点" class="headerlink" title="3. 词嵌入特点"></a>3. 词嵌入特点</h1><p><strong>词嵌入</strong>只对出现在<strong>语料中的词有相应的embedding</strong>，若是语料库外的词不会有对应的embedding，<br>这与CNN中的encoding有很大差异，在对图片encoding时，<strong>任意图片</strong>都可使用encoding获得相应维度大小的向量。</p>
+<h1 id="4-词嵌入的性能评价"><a href="#4-词嵌入的性能评价" class="headerlink" title="4.词嵌入的性能评价"></a>4.词嵌入的性能评价</h1><ul>
+<li><p>Intrisic Evaluation:</p>
+<ul>
+<li>运行特定子任务（如词向量类比），通常这类任务都是简单且能快速计算的</li>
+<li>返回某个数值对子任务的表现进行评价</li>
+<li>对了解词嵌入系统有帮助</li>
+</ul>
+</li>
+<li><p>Extrinsic Evaluation</p>
+<ul>
+<li>对真实任务进行评价</li>
+<li>计算较慢，且无法依靠评价来分析问题出在哪里，无法分辨究竟是哪一个子系统出了问题还是内部交互有问题。</li>
+<li>一般通过子系统调整后的评估效果确定调整是否有效<br>##词向量类比</li>
+</ul>
+<p>man : king ：：woman : queen</p>
+<p>  $ arg\max \limits_{w}sim(e_{w},e_{king}-e_{man}+e_{woman}) $</p>
+</li>
+</ul>
+<p><strong>P.S.</strong>真实情况中，词向量的每一个维度很难刻画其所表特征的含义，但是可以给其添加任意线性变换，<br>在某种线性变化下，某一维度可以表示所需要的特征，因而使得这种类比得以实现。</p>
+<p><strong>similar函数选取：</strong> </p>
+<ul>
+<li>cosine距离<ul>
+<li>$sim(u,v)=\frac{u^{T}v}{||u||<em>{2}||v||</em>{2}}$</li>
+</ul>
+</li>
+<li>平方距离，由于放大了差异，因此在性能上讲对不相关的评估优于对相关的评估<ul>
+<li>$ ||u-v||^2 $</li>
+</ul>
+</li>
+</ul>
+<p><strong>p.s.</strong> 经过T-SNE算法或是PCA算法得到的二维词向量可视化可能并不符合平行四边形法则，因为其内部发生了维度的变换，<br>但在原始词向量中一定成立。</p>
+<h1 id="5-如何使用词嵌入"><a href="#5-如何使用词嵌入" class="headerlink" title="5.如何使用词嵌入"></a>5.如何使用词嵌入</h1><ul>
+<li>在大型语料库中学习词嵌入（网上有许多预训练词嵌入模型）</li>
+<li>使用训练后的词嵌入到实际任务中的训练集上上进行迁移学习（p.s. 若训练集够大，可以通过训练微调预训练的词嵌入）<h2 id="word-embedding-应用"><a href="#word-embedding-应用" class="headerlink" title="word embedding 应用"></a>word embedding 应用</h2></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">常用</th>
+<th align="center">不常用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">实体识别命名</td>
+<td align="center">语言模型</td>
+</tr>
+<tr>
+<td align="center">文本摘要</td>
+<td align="center">机器翻译</td>
+</tr>
+<tr>
+<td align="center">指代消解</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p><strong>语言模型和机翻任务的训练集越大越不适合应用词嵌入模型</strong></p>
+<h1 id="词嵌入偏见消除"><a href="#词嵌入偏见消除" class="headerlink" title="词嵌入偏见消除"></a>词嵌入偏见消除</h1><p>由于词向量是通过学习人类文本获得的，因此人类文本存在的偏见问题，在词向量中不可避免会存在，</p>
+<p>如：男人:医生::女人:护士</p>
+<p>消除这类偏见，首先需要寻找到bias direction,剩余的为非bias direction维度，<br>以性别歧视为例，在bias坐标下，将性别词语和存在性别歧视的词语进行调整，将存在性别歧视的词医生、护士调整到与男人，女人距离一致且位于bias坐标=0的空间中，意味着偏见被消除</p>
 
 
         <hr>
@@ -596,7 +657,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基于CS224N课程-以及-《神经网络与深度学习》，本章主要是与embedding相关的笔记。"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">基于CS224N课程 以及 《神经网络与深度学习》，本章主要是与embedding相关的笔记。</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-如何表示词语的意思"><span class="toc-nav-number"></span> <span class="toc-nav-text">1.如何表示词语的意思</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#什么是Mearning"><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 什么是Mearning</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#传统词语表示成果"><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 传统词语表示成果</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-什么是Embedding"><span class="toc-nav-number"></span> <span class="toc-nav-text">2.什么是Embedding:</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表示学习"><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 表示学习:</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表示学习的关键问题："><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 表示学习的关键问题：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表示学习例子："><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 表示学习例子：</span></a>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基于CS224N课程-，《神经网络与深度学习》-以及-deeplearning-ai，本章主要是与embedding相关的笔记。"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">基于CS224N课程 ，《神经网络与深度学习》 以及 deeplearning.ai，本章主要是与embedding相关的笔记。</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-如何表示词语的意思"><span class="toc-nav-number"></span> <span class="toc-nav-text">1.如何表示词语的意思</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#什么是Meaning"><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 什么是Meaning</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#传统词语表示成果"><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 传统词语表示成果</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-什么是Embedding"><span class="toc-nav-number"></span> <span class="toc-nav-text">2.什么是Embedding:</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表示学习"><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 表示学习:</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表示学习的关键问题："><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 表示学习的关键问题：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表示学习例子："><span class="toc-nav-number"></span> <span class="toc-nav-text">+ 表示学习例子：</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3-词嵌入特点"><span class="toc-nav-number"></span> <span class="toc-nav-text">3. 词嵌入特点</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#4-词嵌入的性能评价"><span class="toc-nav-number"></span> <span class="toc-nav-text">4.词嵌入的性能评价</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#5-如何使用词嵌入"><span class="toc-nav-number"></span> <span class="toc-nav-text">5.如何使用词嵌入</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#word-embedding-应用"><span class="toc-nav-number"></span> <span class="toc-nav-text">word embedding 应用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#词嵌入偏见消除"><span class="toc-nav-number"></span> <span class="toc-nav-text">词嵌入偏见消除</span></a>
         
         </div>
       </aside>
